@@ -16,6 +16,9 @@ scriptencoding utf8
 
 " Configuration: {{{
 
+if exists("s:h")
+  delf s:h
+endif
 if v:version > 580
   highlight clear
   if exists('syntax_on')
@@ -23,13 +26,25 @@ if v:version > 580
   endif
 endif
 
+if exists('g:colors_name')
+  unlet g:colors_name
+endif
 let g:colors_name = 'dracula'
+
+
+
 
 if !(has('termguicolors') && &termguicolors) && !has('gui_running') && &t_Co != 256
   finish
 endif
 
 " Palette: {{{2
+
+if &background ==# 'dark'
+  let g:dracula#palette = g:dracula#palette_dark
+else
+  let g:dracula#palette = g:dracula#palette_light
+endi
 
 let s:fg        = g:dracula#palette.fg
 
@@ -196,7 +211,7 @@ call s:h('DraculaDiffDelete', s:red, s:bgdark)
 " }}}
 " User Interface: {{{
 
-set background=dark
+" set background=dark
 
 " Required as some plugins will overwrite
 call s:h('Normal', s:fg, g:dracula_colorterm || has('gui_running') ? s:bg : s:none )
